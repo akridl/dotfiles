@@ -20,34 +20,85 @@ set incsearch
 set nohlsearch
 " }}}
 
-" Autocommands Vim {{{
+" Autocommands {{{
+" Autocommands/General {{{
+augroup general
+    autocmd!
+    " save any file immediately once opened
+    autocmd BufNewFile * :write
+augroup END
+" }}}
+
+" Autocommands/Vim {{{
 augroup filetype_vim
     autocmd!
+    " turn on folding by default
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
 " }}}
 
-" Autocommands Markdown {{{
+" Autocommands/Markdown {{{
 augroup filetype_md
     autocmd!
+    " OPM: ih to select the heading title
     autocmd FileType markdown onoremap ih :<c-u>execute "normal! ?^#\\+\\s.*$\\r:nohlsearch\\rwvg_"<cr>
 augroup END
 " }}}
+" }}}
 
-" Own plugins {{{
-" "~/.vim/plugin"
-    " mappings.vim
-        " definitions of mappings
-    " statusline.vim
-        " configuration of the statusline
+" Mappings {{{
+let mapleader=","
+
+" Mappings/Normal-mode {{{
+" vimrc-related
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+" Quoting a word
+nnoremap <leader>" viw<esc>a"<esc>bi"<esc>E
+nnoremap <leader>' viw<esc>a'<esc>bi'<esc>E
+
+" In-buffer navigation
+nnoremap H ^
+nnoremap L g_
+
+" Buffers navigation
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap [B :bfirst<CR>
+nnoremap ]B :blast<CR>
+nnoremap ga <C-^>           " switch to the alternate buffer
+
+" Windows navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+" }}}
+
+" Mappings/Insert-mode {{{
+" capitalize the current word
+inoremap <c-u> <esc>viwUi
+" }}}
+
+" Mappings/Visual-mode {{{
+" go to the first non-white space character of the current line
+vnoremap H ^
+" go to the last non-white space character of the current line (i.e., not equivalent to '$')
+vnoremap L g_
+" }}}
+
+" }}}
+
+" Abbreviations {{{
+" Make stars (e.g. when debugging)
+iabbrev <leader>* **********
 " }}}
 
 " Third-party plugins {{{
 call plug#begin()
-
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
 call plug#end()
 " }}}
 
